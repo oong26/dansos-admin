@@ -13,7 +13,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $data = User::orderBy('id')->get();
+        $data = User::orderBy('id')->paginate(5);
 
         return view('user.index', compact('data'));
     }
