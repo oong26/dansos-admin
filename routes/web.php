@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MasyarakatController;
+use App\Http\Controllers\PenerimaanDanaController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('masyarakat', MasyarakatController::class);
     Route::get('pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
     Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
+    Route::resource('penerimaan-dana', PenerimaanDanaController::class);
 });
 
 require __DIR__.'/auth.php';

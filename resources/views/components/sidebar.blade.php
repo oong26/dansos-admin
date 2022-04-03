@@ -148,8 +148,8 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Bansos</span>
         </li>
-        <li class="menu-item">
-            <a href="index.html" class="menu-link">
+        <li class="menu-item {{ Request::segment(1) == 'penerimaan-dana' ? 'active' : '' }}">
+            <a href="{{ route('penerimaan-dana.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-donate-heart"></i>
                 <div data-i18n="Analytics">Penerimaan Dana</div>
             </a>
