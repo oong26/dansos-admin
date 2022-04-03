@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\History;
 use App\Models\Masyarakat;
 use App\Models\PenerimaanDana;
 use Illuminate\Http\Request;
@@ -60,6 +61,8 @@ class PenerimaanDanaController extends Controller
         ]);
 
         try {
+            \DB::beginTransaction();
+
             $newPenerimaan = new PenerimaanDana;
             $newPenerimaan->nik = $request->nik;
             $newPenerimaan->tanggal = $request->tanggal;
@@ -68,10 +71,19 @@ class PenerimaanDanaController extends Controller
 
             $newPenerimaan->save();
 
+            $newHistory = new History;
+            $newHistory->id_penerimaan_dana = $newPenerimaan->id;
+
+            $newHistory->save();
+
+            \DB::commit();
+            
             return redirect('/penerimaan-dana')->withStatus('Berhasil menyimpan data');
         } catch (\Exception $e) {
+            \DB::rollback();
             return back()->withError('Terjadi kesalahan. '.$e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
+            \DB::rollback();
             return back()->withError('Terjadi kesalahan pada database. '.$e->getMessage());
         }
     }
@@ -139,15 +151,29 @@ class PenerimaanDanaController extends Controller
             // $editPenerimaan->status = $request->status;
 
             // $editPenerimaan->save();
+            \DB::beginTransaction();
+
             $editPenerimaan = PenerimaanDana::find($id);
             $editPenerimaan->status = 2;
 
             $editPenerimaan->save();
 
+            $newHistory = new History;
+            $newHistory->id_penerimaan_dana = $id;
+            $newHistory->status = 2;
+            
+            $newHistory->save();
+
+            \DB::commit();
+
             return redirect('/penerimaan-dana')->withStatus('Berhasil menyimpan data');
         } catch (\Exception $e) {
+            \DB::rollback();
+
             return back()->withError('Terjadi kesalahan. '.$e->getMessage());
         } catch (\Illuminate\Database\QueryException $e) {
+            \DB::rollback();
+
             return back()->withError('Terjadi kesalahan pada database. '.$e->getMessage());
         }
     }

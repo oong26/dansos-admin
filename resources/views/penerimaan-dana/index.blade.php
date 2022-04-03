@@ -18,8 +18,8 @@
                 <th>Nama</th>
                 <th>Status</th>
                 <th>Nominal</th>
-                <th>Dibuat pada</th>
-                <th>Terkirim pada</th>
+                <th class="text-center">Dibuat pada</th>
+                <th class="text-center">Terkirim pada</th>
                 <th>Actions</th>
               </tr>
             </thead>
