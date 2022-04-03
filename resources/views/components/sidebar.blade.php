@@ -133,8 +133,8 @@
                 <div data-i18n="Analytics">User</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="index.html" class="menu-link">
+        <li class="menu-item {{ Request::segment(1) == 'masyarakat' ? 'active' : '' }}">
+            <a href="{{ route('masyarakat.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-group"></i>
                 <div data-i18n="Analytics">Masyarakat</div>
             </a>
