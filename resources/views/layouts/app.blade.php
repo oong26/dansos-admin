@@ -67,6 +67,8 @@
                     @yield('content')
                     <!-- / Content -->
 
+                    @include('components.toast')
+
                     <!-- Footer -->
                     @include('components.footer')
                     <!-- / Footer -->
