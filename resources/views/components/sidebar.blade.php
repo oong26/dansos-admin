@@ -127,6 +127,7 @@
                 </li>
             </ul>
         </li>  --}}
+        @if (auth()->user()->role == 'Officer')
         <li class="menu-item {{ Request::segment(1) == 'user' ? 'active' : '' }}">
             <a href="{{ route('user.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-user-account"></i>
@@ -154,11 +155,14 @@
                 <div data-i18n="Analytics">Penerimaan Dana</div>
             </a>
         </li>
+        @endif
+        @if (auth()->user()->role == 'Pimpinan' || auth()->user()->role == 'Dinas Provinsi')
         <li class="menu-item {{ Request::segment(1) == 'history' ? 'active' : '' }}">
             <a href="{{ route('history.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-report"></i>
                 <div data-i18n="Analytics">Tracking Penerimaan Dana</div>
             </a>
         </li>
+        @endif
     </ul>
 </aside>
