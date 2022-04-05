@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtikelController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MasyarakatController;
 use App\Http\Controllers\PenerimaanDanaController;
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
     Route::resource('penerimaan-dana', PenerimaanDanaController::class);
     Route::get('history', [HistoryController::class, 'index'])->name('history.index');
+    Route::resource('artikel', ArtikelController::class);
 });
 
 require __DIR__.'/auth.php';

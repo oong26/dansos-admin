@@ -155,6 +155,15 @@
                 <div data-i18n="Analytics">Penerimaan Dana</div>
             </a>
         </li>
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Artikel</span>
+        </li>
+        <li class="menu-item {{ Request::segment(1) == 'artikel' ? 'active' : '' }}">
+            <a href="{{ route('artikel.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-news"></i>
+                <div data-i18n="Analytics">Artikel</div>
+            </a>
+        </li>
         @endif
         @if (auth()->user()->role == 'Pimpinan' || auth()->user()->role == 'Dinas Provinsi')
         <li class="menu-item {{ Request::segment(1) == 'history' ? 'active' : '' }}">
