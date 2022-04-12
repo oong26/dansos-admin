@@ -196,4 +196,69 @@ class PenerimaanDanaController extends Controller
             return back()->withError('Terjadi kesalahan pada database. '.$e->getMessage());
         }
     }
+
+    // public function multipleKonfirmasi(Request $request)
+    // {
+    //     return $request->check;
+    //     \DB::beginTransaction();
+    //     try {
+    //         for ($i=0; $i < count($request->check); $i++) { 
+    //             $editPenerimaan = PenerimaanDana::find($request->check[$i]);
+    //             $editPenerimaan->status = 2;
+
+    //             $editPenerimaan->save();
+
+    //             $idPenerimaa = Masyarakat::select('id')->where('nik', $editPenerimaan->nik)->id;
+
+    //             $newHistory = new History;
+    //             $newHistory->id_penerimaan_dana = $idPenerimaa;
+    //             $newHistory->status = 2;
+                
+    //             $newHistory->save();
+    //         }
+
+    //         \DB::commit();
+
+    //         return redirect('/penerimaan-dana')->withStatus('Berhasil menyimpan data');
+    //     } catch (\Exception $e) {
+    //         \DB::rollback();
+
+    //         return back()->withError('Terjadi kesalahan. '.$e->getMessage());
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         \DB::rollback();
+
+    //         return back()->withError('Terjadi kesalahan pada database. '.$e->getMessage());
+    //     }
+    // }
+    public function multipleKonfirmasi(Request $request)
+    {
+        // return response()->json($request->ids);
+        \DB::beginTransaction();
+        try {
+            for ($i=0; $i < count($request->ids); $i++) { 
+                $editPenerimaan = PenerimaanDana::find($request->ids[$i]);
+                $editPenerimaan->status = 2;
+
+                $editPenerimaan->save();
+
+                $newHistory = new History;
+                $newHistory->id_penerimaan_dana = $editPenerimaan->id;
+                $newHistory->status = 2;
+                
+                $newHistory->save();
+            }
+
+            \DB::commit();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            \DB::rollback();
+
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        } catch (\Illuminate\Database\QueryException $e) {
+            \DB::rollback();
+
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
 }

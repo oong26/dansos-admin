@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
     Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
     Route::resource('penerimaan-dana', PenerimaanDanaController::class);
+    Route::post('penerimaan-dana/konfirmasi', [PenerimaanDanaController::class, 'multipleKonfirmasi'])->name('penerimaan-dana.multiple-konfirmasi');
     Route::get('history', [HistoryController::class, 'index'])->name('history.index');
     Route::resource('artikel', ArtikelController::class);
 });

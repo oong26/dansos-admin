@@ -21,11 +21,15 @@
                 <th class="text-center">Dibuat pada</th>
                 <th class="text-center">Terkirim pada</th>
                 <th>Actions</th>
+                <th class="text-center"><input type="checkbox" name="check_all" id="check_all"> <label for="check_all">Pilih semua</label></th>
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
-                @foreach ($data as $item)
-                    <tr>
+                @php
+                    $formExists = false;
+                @endphp
+                @foreach ($data as $key => $item)
+                    <tr id="checkid{{$item->id}}">
                         <td class="text-center"><strong>{{ $loop->iteration }}</strong></td>
                         <td>{{ $item->nik }}</td>
                         <td>{{ $item->nama }}</td>
@@ -57,13 +61,28 @@
                                 @csrf
                                 @method('put')
                                 <button type="submit" class="btn btn-sm btn-success btn-circle" onclick="return confirm('Yakin akan melanjutkan ?')">
-                                    <i class="tf-icons bx bx-check"></i> Konfirmasi Terkirim
+                                    <i class="tf-icons bx bx-check"></i> Konfirmasi
                                 </button>
                             </form>
                             @endif
                         </td>
+                        <td class="text-center">
+                            @if ($item->status == 1)
+                            <input type="checkbox" name="check" id="check[]" value="{{ $item->id }}" onchange="checkItem({{$item->id}})">
+                            @else
+                                -
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <th colspan="8"></th>
+                    <th>
+                        <button id="multiple_confirm" class="btn btn-sm btn-success btn-circle">
+                            <i class="tf-icons bx bx-check"></i> Konfirmasi yang dipilih
+                        </button>
+                    </th>
+                </tr>
             </tbody>
           </table>
           {{ $data->links('vendor.pagination.custom') }}
@@ -71,3 +90,51 @@
       </div>
 </div>
 @endsection
+
+@push('extraJS')
+<script>
+    var checks = []; 
+    function checkItem(id) {
+        checks.push(id);
+        console.log(this);
+        console.log(checks)
+    }
+
+    $('#check_all').click(function(event) {   
+        if(this.checked) {
+            // Iterate each checkbox
+            $('[id^=check]').each(function() {
+                this.checked = true;        
+            });
+        } else {
+            $('[id^=check]').each(function() {
+                this.checked = false;                       
+            });
+        }
+    });
+    
+    $('#multiple_confirm').click(function(e) {
+        e.preventDefault();
+        var checkArr = [];
+        $("input:checkbox[name=check]:checked").each(function(){
+            checkArr.push($(this).val());
+        });
+
+        $.ajax({
+            url: "{{ route('penerimaan-dana.multiple-konfirmasi') }}",
+            type: "POST",
+            data: {
+                _token: "{{csrf_token()}}",
+                ids: checkArr,
+            },
+            success: function(response) {
+                console.log(response)
+                if(response['success'])
+                    location.reload();
+                else 
+                    alert('Terjadi kesalahan')
+            }
+        })
+    })
+</script>
+@endpush
