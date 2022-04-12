@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
     Route::resource('penerimaan-dana', PenerimaanDanaController::class);
     Route::post('penerimaan-dana/konfirmasi', [PenerimaanDanaController::class, 'multipleKonfirmasi'])->name('penerimaan-dana.multiple-konfirmasi');
+    Route::get('export-penerimaan-dana/{page}', [PenerimaanDanaController::class, 'exportExcel'])->name('penerimaan-dana.excel');
     Route::get('history', [HistoryController::class, 'index'])->name('history.index');
     Route::resource('artikel', ArtikelController::class);
 });

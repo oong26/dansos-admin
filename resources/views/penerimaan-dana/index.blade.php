@@ -7,6 +7,19 @@
             <span class="tf-icons bx bx-plus"></span>&nbsp; Tambah
         </button>
     </a>
+    @php
+        if(isset($_GET['page'])) {
+            $page = $_GET['page'];
+        }
+        else {
+            $page = 1;
+        }
+    @endphp
+    <a href="{{ route('penerimaan-dana.excel', $page) }}">
+        <button type="button" class="btn btn-sm btn-warning">
+            <span class="tf-icons bx bx-file"></span>&nbsp; Excel
+        </button>
+    </a>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
         <div class="table-responsive text-nowrap">

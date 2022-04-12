@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PenerimaanDanaExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\History;
 use App\Models\Masyarakat;
 use App\Models\PenerimaanDana;
@@ -197,39 +199,6 @@ class PenerimaanDanaController extends Controller
         }
     }
 
-    // public function multipleKonfirmasi(Request $request)
-    // {
-    //     return $request->check;
-    //     \DB::beginTransaction();
-    //     try {
-    //         for ($i=0; $i < count($request->check); $i++) { 
-    //             $editPenerimaan = PenerimaanDana::find($request->check[$i]);
-    //             $editPenerimaan->status = 2;
-
-    //             $editPenerimaan->save();
-
-    //             $idPenerimaa = Masyarakat::select('id')->where('nik', $editPenerimaan->nik)->id;
-
-    //             $newHistory = new History;
-    //             $newHistory->id_penerimaan_dana = $idPenerimaa;
-    //             $newHistory->status = 2;
-                
-    //             $newHistory->save();
-    //         }
-
-    //         \DB::commit();
-
-    //         return redirect('/penerimaan-dana')->withStatus('Berhasil menyimpan data');
-    //     } catch (\Exception $e) {
-    //         \DB::rollback();
-
-    //         return back()->withError('Terjadi kesalahan. '.$e->getMessage());
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //         \DB::rollback();
-
-    //         return back()->withError('Terjadi kesalahan pada database. '.$e->getMessage());
-    //     }
-    // }
     public function multipleKonfirmasi(Request $request)
     {
         // return response()->json($request->ids);
@@ -260,5 +229,27 @@ class PenerimaanDanaController extends Controller
 
             return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
+    }
+
+    public function exportExcel($page)
+    {
+        $take = 5;
+        $skip = 0;
+
+        if($page > 1) {
+            for ($i=1; $i < $page; $i++) { 
+                $skip += 5;
+            }
+        }
+        
+        $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+                                ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+                                ->skip($skip)
+                                ->take($take)
+                                ->orderBy('penerimaan_dana.status')
+                                ->orderBy('penerimaan_dana.nik')
+                                ->get();
+
+        return Excel::download(new PenerimaanDanaExport($data), 'penerimaan-dana.xlsx');
     }
 }
