@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('penerimaan-dana/konfirmasi', [PenerimaanDanaController::class, 'multipleKonfirmasi'])->name('penerimaan-dana.multiple-konfirmasi');
     Route::get('export-penerimaan-dana/{page}', [PenerimaanDanaController::class, 'exportExcel'])->name('penerimaan-dana.excel');
     Route::get('history', [HistoryController::class, 'index'])->name('history.index');
+    Route::get('export-history-penerimaan-dana', [HistoryController::class, 'exportExcel'])->name('history.excel');
     Route::resource('artikel', ArtikelController::class);
 });
 

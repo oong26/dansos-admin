@@ -42,6 +42,13 @@
         </div>
     </form>
     @isset($data)
+    <form action="{{ route('history.excel') }}" method="get">
+        <input type="hidden" name="dari" value="{{ $_GET['dari'] }}">
+        <input type="hidden" name="sampai" value="{{ $_GET['sampai'] }}">
+        <button type="submit" class="btn btn-sm btn-warning">
+            <span class="tf-icons bx bx-file"></span>&nbsp; Excel
+        </button>
+    </form>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana dari tanggal <b>{{ $_GET['dari'] }}</b> sampai <b>{{ $_GET['sampai'] }}</b></h5>
         <div class="table-responsive text-nowrap">
