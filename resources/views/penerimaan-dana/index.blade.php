@@ -23,11 +23,11 @@
     <div class="mt-2">
         <form action="{{ route('search') }}" method="post" role="search" >
             @csrf
-            <div class="d-flex">
-                <div>
+            <div class="row">
+                <div class="col-md-8">
                     <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
                 </div>
-                <div>
+                <div class="col-md-4">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm">Cari data</i></button>
                 </div>
             </div>
