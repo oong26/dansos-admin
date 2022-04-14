@@ -16,13 +16,37 @@ class PenerimaanDanaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+        $search =  $request->input('q');
+        if($search!=""){
+            $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+                                ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+                                ->where(function ($query) use ($search)
+                                {
+                                    $query->where('penerimaan_dana.nik','like','%'.$search.'%');
+                                })
+                                ->orderBy('penerimaan_dana.status')
+                                ->orderBy('penerimaan_dana.nik')
+                                ->paginate(5);
+            // $Members = Member::where(function ($query) use ($search){
+            //     $query->where('name', 'like', '%'.$search.'%')
+            //         ->orWhere('email', 'like', '%'.$search.'%');
+            // })->paginate(2);
+            $data->appends(['q' => $search]);
+        }
+        else{
+            $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
                                 ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
                                 ->orderBy('penerimaan_dana.status')
                                 ->orderBy('penerimaan_dana.nik')
                                 ->paginate(5);
+        }
+        // $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+        //                         ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+        //                         ->orderBy('penerimaan_dana.status')
+        //                         ->orderBy('penerimaan_dana.nik')
+        //                         ->paginate(5);
 
         return view('penerimaan-dana.index', compact('data'));
     }
@@ -79,7 +103,7 @@ class PenerimaanDanaController extends Controller
             $newHistory->save();
 
             \DB::commit();
-            
+
             return redirect('/penerimaan-dana')->withStatus('Berhasil menyimpan data');
         } catch (\Exception $e) {
             \DB::rollback();
@@ -163,7 +187,7 @@ class PenerimaanDanaController extends Controller
             $newHistory = new History;
             $newHistory->id_penerimaan_dana = $id;
             $newHistory->status = 2;
-            
+
             $newHistory->save();
 
             \DB::commit();
@@ -204,7 +228,7 @@ class PenerimaanDanaController extends Controller
         // return response()->json($request->ids);
         \DB::beginTransaction();
         try {
-            for ($i=0; $i < count($request->ids); $i++) { 
+            for ($i=0; $i < count($request->ids); $i++) {
                 $editPenerimaan = PenerimaanDana::find($request->ids[$i]);
                 $editPenerimaan->status = 2;
 
@@ -213,7 +237,7 @@ class PenerimaanDanaController extends Controller
                 $newHistory = new History;
                 $newHistory->id_penerimaan_dana = $editPenerimaan->id;
                 $newHistory->status = 2;
-                
+
                 $newHistory->save();
             }
 
@@ -237,11 +261,11 @@ class PenerimaanDanaController extends Controller
         $skip = 0;
 
         if($page > 1) {
-            for ($i=1; $i < $page; $i++) { 
+            for ($i=1; $i < $page; $i++) {
                 $skip += 5;
             }
         }
-        
+
         $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
                                 ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
                                 ->skip($skip)

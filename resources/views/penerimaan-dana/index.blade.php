@@ -20,6 +20,10 @@
             <span class="tf-icons bx bx-file"></span>&nbsp; Excel
         </button>
     </a>
+    <div class="form-group">
+        <input type="text" name="q" placeholder="Masukkan NIK yang dicari..." class="form-control"/>
+        <input type="submit" class="btn btn-primary" value="Search"/>
+    </div>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
         <div class="table-responsive text-nowrap">
@@ -106,26 +110,26 @@
 
 @push('extraJS')
 <script>
-    var checks = []; 
+    var checks = [];
     function checkItem(id) {
         checks.push(id);
         console.log(this);
         console.log(checks)
     }
 
-    $('#check_all').click(function(event) {   
+    $('#check_all').click(function(event) {
         if(this.checked) {
             // Iterate each checkbox
             $('[id^=check]').each(function() {
-                this.checked = true;        
+                this.checked = true;
             });
         } else {
             $('[id^=check]').each(function() {
-                this.checked = false;                       
+                this.checked = false;
             });
         }
     });
-    
+
     $('#multiple_confirm').click(function(e) {
         e.preventDefault();
         var checkArr = [];
@@ -144,7 +148,7 @@
                 console.log(response)
                 if(response['success'])
                     location.reload();
-                else 
+                else
                     alert('Terjadi kesalahan')
             }
         })
