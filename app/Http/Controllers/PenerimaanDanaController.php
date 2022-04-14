@@ -281,7 +281,7 @@ class PenerimaanDanaController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        if($search != ''){
+        if($search != '')
             $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
                         ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
                         ->orderBy('penerimaan_dana.status')
@@ -290,7 +290,8 @@ class PenerimaanDanaController extends Controller
                         ->paginate(5);
                 // $services = Service::where('service_name','like', '%' .$search. '%')->paginate(2);
                 $data->appends(array('search'=> Input::get('search'),));
-        if(count($services )>0){
+
+        if(count($data )>0){
                 return view('penerimaan-dana.index',['data'=>$data]);
         }
         return back()->with('error','No results Found');
