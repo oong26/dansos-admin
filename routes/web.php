@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('masyarakat', MasyarakatController::class);
     Route::get('pengaduan', [PengaduanController::class, 'index'])->name('pengaduan.index');
     Route::delete('pengaduan/{id}', [PengaduanController::class, 'destroy'])->name('pengaduan.destroy');
-    Route::post('penerimaan-dana/search', [PenerimaanDanaController::class, 'search']);
+    Route::post('search', [PenerimaanDanaController::class, 'search']);
     Route::resource('penerimaan-dana', PenerimaanDanaController::class);
     Route::post('penerimaan-dana/konfirmasi', [PenerimaanDanaController::class, 'multipleKonfirmasi'])->name('penerimaan-dana.multiple-konfirmasi');
     Route::get('export-penerimaan-dana/{page}', [PenerimaanDanaController::class, 'exportExcel'])->name('penerimaan-dana.excel');

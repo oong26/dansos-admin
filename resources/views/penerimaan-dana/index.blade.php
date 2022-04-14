@@ -20,9 +20,9 @@
             <span class="tf-icons bx bx-file"></span>&nbsp; Excel
         </button>
     </a>
-    <form action="{{url('penerimaan-dana/search')}}" method="post" role="search" >
+    <form action="{{url('/search')}}" method="post" role="search" >
         <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm">Cari data</i></button>
     </form>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
