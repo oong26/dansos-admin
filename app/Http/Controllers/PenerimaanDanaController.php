@@ -295,7 +295,7 @@ class PenerimaanDanaController extends Controller
             return view('penerimaan-dana.index', compact('data'));
 
         }
-        return redirect()->back()->withErrors('error','No results Found');
+        return redirect()->route('penerimaan-dana.index')->withError('error','No results Found');
 
     }
 }
