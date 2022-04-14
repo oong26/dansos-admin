@@ -20,10 +20,10 @@
             <span class="tf-icons bx bx-file"></span>&nbsp; Excel
         </button>
     </a>
-    <div class="form-group">
-        <input type="text" name="q" placeholder="Masukkan NIK yang dicari..." class="form-control"/>
-        <button type="submit" class="btn btn-primary" value="Search"/>
-    </div>
+    <form action="{{url('penerimaan-dana/search')}}" method="post" role="search" >
+        <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
+        <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm"></i></button>
+    </form>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
         <div class="table-responsive text-nowrap">

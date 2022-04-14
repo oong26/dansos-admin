@@ -16,33 +16,33 @@ class PenerimaanDanaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $search =  $request->input('q');
-        if($search!=""){
-            return $search;
-            $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
-                                ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
-                                ->where(function ($query) use ($search)
-                                {
-                                    $query->where('penerimaan_dana.nik','like','%'.$search.'%');
-                                })
-                                ->orderBy('penerimaan_dana.status')
-                                ->orderBy('penerimaan_dana.nik')
-                                ->paginate(5);
+        // $search =  $request->input('q');
+        // if($search!=""){
+        //     return $search;
+        //     $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+        //                         ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+        //                         ->where(function ($query) use ($search)
+        //                         {
+        //                             $query->where('penerimaan_dana.nik','like','%'.$search.'%');
+        //                         })
+        //                         ->orderBy('penerimaan_dana.status')
+        //                         ->orderBy('penerimaan_dana.nik')
+        //                         ->paginate(5);
             // $Members = Member::where(function ($query) use ($search){
             //     $query->where('name', 'like', '%'.$search.'%')
             //         ->orWhere('email', 'like', '%'.$search.'%');
             // })->paginate(2);
-            $data->appends(['q' => $search]);
-        }
-        else{
+        //     $data->appends(['q' => $search]);
+        // }
+        // else{
             $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
                                 ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
                                 ->orderBy('penerimaan_dana.status')
                                 ->orderBy('penerimaan_dana.nik')
                                 ->paginate(5);
-        }
+        // }
         // $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
         //                         ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
         //                         ->orderBy('penerimaan_dana.status')
@@ -276,5 +276,24 @@ class PenerimaanDanaController extends Controller
                                 ->get();
 
         return Excel::download(new PenerimaanDanaExport($data), 'penerimaan-dana.xlsx');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        if($search != ''){
+            $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+                        ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+                        ->orderBy('penerimaan_dana.status')
+                        ->orderBy('penerimaan_dana.nik')
+                        ->where('penerimaan_dana.nik','like','%'.$search.'%')
+                        ->paginate(5);
+                // $services = Service::where('service_name','like', '%' .$search. '%')->paginate(2);
+                $data->appends(array('search'=> Input::get('search'),));
+        if(count($services )>0){
+                return view('penerimaan-dana.index',['data'=>$data]);
+        }
+        return back()->with('error','No results Found');
+
     }
 }
