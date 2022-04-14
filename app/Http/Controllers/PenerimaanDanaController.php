@@ -290,12 +290,20 @@ class PenerimaanDanaController extends Controller
                         ->paginate(5);
                 // $services = Service::where('service_name','like', '%' .$search. '%')->paginate(2);
                 $data->appends(array('search'=> $search,));
+        }else{
+            $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
+                        ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
+                        ->orderBy('penerimaan_dana.status')
+                        ->orderBy('penerimaan_dana.nik')
+                        // ->where('penerimaan_dana.nik','like','%'.$search.'%')
+                        ->paginate(5);
         }
         if(count($data )>0){
             return view('penerimaan-dana.index', compact('data'));
 
+        }else{
+            return redirect()->route('penerimaan-dana.index')->withError('Pencarian tidak ditemukan','No results Found');
         }
-        return redirect()->route('penerimaan-dana.index')->withError('Pencarian tidak ditemukan','No results Found');
 
     }
 }
