@@ -19,8 +19,8 @@ class PenerimaanDanaController extends Controller
     public function index(Request $request)
     {
         $search =  $request->input('q');
-        return $search;
         if($search!=""){
+            return $search;
             $data = PenerimaanDana::select('penerimaan_dana.*', 'masyarakat.nama')
                                 ->join('masyarakat', 'masyarakat.nik', 'penerimaan_dana.nik')
                                 ->where(function ($query) use ($search)
