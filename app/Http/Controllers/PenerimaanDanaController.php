@@ -289,13 +289,13 @@ class PenerimaanDanaController extends Controller
                         ->where('penerimaan_dana.nik','like','%'.$search.'%')
                         ->paginate(5);
                 // $services = Service::where('service_name','like', '%' .$search. '%')->paginate(2);
-                $data->appends(array('search'=> \Input::get('search'),));
+                $data->appends(array('search'=> $search,));
         }
         if(count($data )>0){
             return view('penerimaan-dana.index', compact('data'));
 
         }
-        return back()->with('error','No results Found');
+        return redirect()->back()->withErrors('error','No results Found');
 
     }
 }

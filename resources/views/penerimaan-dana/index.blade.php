@@ -20,7 +20,8 @@
             <span class="tf-icons bx bx-file"></span>&nbsp; Excel
         </button>
     </a>
-    <form action="{{url('/search')}}" method="post" role="search" >
+    <form action="{{ route('search') }}" method="post" role="search" >
+        @csrf
         <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
         <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm">Cari data</i></button>
     </form>
