@@ -22,7 +22,7 @@
     </a>
     <div class="form-group">
         <input type="text" name="q" placeholder="Masukkan NIK yang dicari..." class="form-control"/>
-        <input type="submit" class="btn btn-primary" value="Search"/>
+        <button type="submit" class="btn btn-primary" value="Search"/>
     </div>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
