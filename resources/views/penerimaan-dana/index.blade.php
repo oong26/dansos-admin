@@ -20,11 +20,19 @@
             <span class="tf-icons bx bx-file"></span>&nbsp; Excel
         </button>
     </a>
-    <form action="{{ route('search') }}" method="post" role="search" >
-        @csrf
-        <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm">Cari data</i></button>
-    </form>
+    <div class="mt-2">
+        <form action="{{ route('search') }}" method="post" role="search" >
+            @csrf
+            <div class="d-flex">
+                <div>
+                    <input type="text" placeholder="Masukkan NIK..." name="search" class="form-control">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-search fa-sm">Cari data</i></button>
+                </div>
+            </div>
+        </form>
+    </div>
     <div class="card mt-2">
         <h5 class="card-header">Data Penerimaan Dana</h5>
         <div class="table-responsive text-nowrap">
