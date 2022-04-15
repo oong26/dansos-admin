@@ -28,6 +28,13 @@
                             @enderror
                         </div>
                         <div class="mb-3">
+                            <label class="form-label" for="basic-default-cover">Video</label>
+                            <input type="file" class="form-control @error('video') is-invalid @enderror" name="video" id="basic-default-cover" required/>
+                            @error('video')
+                            <div class="form-text text-danger">{{$message}}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label" for="basic-default-konten">Konten</label>
                             <textarea class="form-control @error('konten') is-invalid @enderror" name="konten" id="konten" cols="30" rows="5" required></textarea>
                             @error('konten')

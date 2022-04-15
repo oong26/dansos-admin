@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddStatusToHistoryTable extends Migration
+class AddUploadVideoOnArtikelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class AddStatusToHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::table('history', function (Blueprint $table) {
-            $table->tinyInteger('status',false, true)
-                ->after('id_penerimaan_dana')
-                ->default('1')
-                ->comment('1=Sedang dalam proses, 2=Terkirim');
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->string('upload_video')->nullable()->after('cover');
         });
     }
 
@@ -28,8 +25,8 @@ class AddStatusToHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::table('history', function (Blueprint $table) {
-            //
+        Schema::table('artikel', function (Blueprint $table) {
+            $table->dropColumn('artikel');
         });
     }
 }

@@ -52,27 +52,51 @@ class ArtikelController extends Controller
 
         try {
             if($request->file('cover') != null) {
+
                 $folder = 'upload/artikel';
                 $file = $request->file('cover');
                 $filename = date('YmdHis').$file->getClientOriginalName();
                 // Get canonicalized absolute pathname
                 $path = realpath($folder);
-    
+
                 // If it exist, check if it's a directory
                 if(!($path !== true AND is_dir($path)))
                 {
                     // Path/folder does not exist then create a new folder
                     mkdir($folder, 0755, true);
                 }
-                if($file->move($folder, $filename)) {
-                    $newArtikel = new Artikel;
-                    $newArtikel->title = $request->title;
-                    $newArtikel->slug = \Str::slug($request->title, '-');
-                    $newArtikel->cover = $filename;
-                    $newArtikel->konten = $request->konten;
+                $newArtikel = new Artikel;
+                $newArtikel->title = $request->title;
+                $newArtikel->slug = \Str::slug($request->title, '-');
+                $newArtikel->konten = $request->konten;
 
-                    $newArtikel->save();
+                if ($request->file('video') != null) {
+                    $folder_video = 'upload/artikel';
+                    $file_video = $request->file('video');
+                    $filename_video = $file_video->getClientOriginalName();
+                    // Get canonicalized absolute pathname
+                    $path = realpath($folder_video);
+
+                    // If it exist, check if it's a directory
+                    if(!($path !== true AND is_dir($path)))
+                    {
+                        // Path/folder does not exist then create a new folder
+                        mkdir($folder_video, 0755, true);
+                    }
                 }
+
+                if($file_video->move($folder_video, $filename_video)) {
+
+                    $newArtikel->upload_video = $filename_video;
+
+                }
+
+                if($file->move($folder, $filename)) {
+
+                    $newArtikel->cover = $filename;
+
+                }
+                $newArtikel->save();
             }
 
             return redirect('/artikel')->withStatus('Berhasil menyimpan data');
@@ -147,7 +171,7 @@ class ArtikelController extends Controller
                 $filename = date('YmdHis').$file->getClientOriginalName();
                 // Get canonicalized absolute pathname
                 $path = realpath($folder);
-    
+
                 // If it exist, check if it's a directory
                 if(!($path !== true AND is_dir($path)))
                 {
